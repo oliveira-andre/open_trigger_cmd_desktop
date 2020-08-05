@@ -1,0 +1,13 @@
+{
+  "name": "open_trigger_cmd_desktop",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "Andre Oliveira",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn electron ."
+  },
+  "dependencies": {
+    "electron": "^9.1.2"
+  }
+}
