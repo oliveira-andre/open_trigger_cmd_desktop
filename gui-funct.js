@@ -1,34 +1,37 @@
-let is = require("electron-is");
+const is = require('electron-is');
+const process = require('child_process');
+
+const currentUser = 'teste';
+const commandName = 'teste';
 
 function getOS() {
-    if (is.windows())
-      console.log("Windows Detected.")
-    if (is.macOS())
-      console.log("Apple OS Detected.")
-    if (is.linux())
-      console.log("Linux Detected.")
+  let OS = '';
+  if (is.windows()) { OS = 'windows'; }
+  if (is.macOS()) { OS = 'mac'; }
+  if (is.linux()) { OS = 'linux'; }
+
+  return OS;
 }
 
 function execCommand() {
-  const process = require('child_process');
+  const OS = getOS();
+  const command = process.spawn(`./${OS}/${currentUser}/${commandName}.sh`, [], { shell: true });
 
-  getOS();
-  let command = process.spawn('./test.sh', [], { shell: true }); 
-
-  command.on('error', function(err) {
-    console.log('stderr: <'+err+'>' );
+  command.on('error', (err) => {
+    console.log(`stderr: < ${err} >`);
   });
 
   command.stdout.on('data', (data) => {
     console.log(data.toString());
   });
 
-  command.stderr.on('data', function (data) {
-    console.log('stderr: <'+data+'>' );
+  command.stderr.on('data', (data) => {
+    console.log(`stderr: < ${data} >`);
   });
-
 
   command.on('exit', (code) => {
     console.log(`Child exited with code ${code}`);
   });
 }
+
+export default execCommand;
